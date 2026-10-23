@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -29,5 +31,17 @@ public class ProductController {
         Product savedProduct = productService.createProduct(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
+    }
+
+    @GetMapping("/{id}")
+    public  ResponseEntity<Product> getProductById(@PathVariable Long id){
+        Optional<Product> product = productService.getProductById(id);
+
+        if(product.isPresent()){
+            return ResponseEntity.ok(product.get());
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found with ID: " + id);
+        }
     }
 }
