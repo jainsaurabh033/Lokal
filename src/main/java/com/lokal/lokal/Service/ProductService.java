@@ -3,6 +3,8 @@ package com.lokal.lokal.Service;
 import com.lokal.lokal.dto.ProductRequest;
 import com.lokal.lokal.entity.Product;
 import com.lokal.lokal.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,8 +21,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts(){
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable){
+
+        return productRepository.findAll(pageable);
     }
 
     public Product createProduct(ProductRequest request){

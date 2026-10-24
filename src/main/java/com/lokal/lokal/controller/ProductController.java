@@ -4,6 +4,10 @@ import com.lokal.lokal.Service.ProductService;
 import com.lokal.lokal.dto.ProductRequest;
 import com.lokal.lokal.entity.Product;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +26,44 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProduct(){
-        return productService.getAllProducts();
+    public Page<Product> getAllProduct(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+    ){
+        if(page < 0){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Page cannot be negative"
+            );
+        }
+
+        if(size < 1 || size > 100){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Page size must be between 1 and 100"
+            );
+        }
+
+        Sort sort;
+
+        if(direction.equalsIgnoreCase("desc")){
+            sort = Sort.by(sortBy).descending();
+        }
+        else if(direction.equalsIgnoreCase("asc")){
+            sort = Sort.by(sortBy).ascending();
+        }
+        else{
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Direction must be asc or desc"
+            );
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return productService.getAllProducts(pageable);
     }
 
     @PostMapping
