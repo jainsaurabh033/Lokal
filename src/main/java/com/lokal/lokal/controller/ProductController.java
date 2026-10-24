@@ -44,4 +44,9 @@ public class ProductController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found with ID: " + id);
         }
     }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request){
+        return productService.updateProduct(id, request);
+    }
 }
