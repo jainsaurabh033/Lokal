@@ -24,6 +24,10 @@ public class Product {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
     public Product(){
 
     }
@@ -66,5 +70,13 @@ public class Product {
 
     public void setStockQuantity(Integer stockQuantity){
         this.stockQuantity = stockQuantity;
+    }
+
+    public Store getStore(){
+        return store;
+    }
+
+    public void setStore(Store store){
+        this.store = store;
     }
 }
