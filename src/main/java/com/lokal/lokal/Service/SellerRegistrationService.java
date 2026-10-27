@@ -9,9 +9,11 @@ import com.lokal.lokal.repository.StoreRepository;
 import com.lokal.lokal.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+@Service
 public class SellerRegistrationService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
