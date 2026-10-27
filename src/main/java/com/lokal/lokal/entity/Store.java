@@ -1,5 +1,6 @@
 package com.lokal.lokal.entity;
 
+import com.lokal.lokal.enumm.StoreStatus;
 import jakarta.persistence.*;
 
 import javax.annotation.processing.Generated;
@@ -17,6 +18,10 @@ public class Store {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "seller_id", nullable = false, unique = true)
     private User seller;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private StoreStatus status = StoreStatus.PENDING;
 
     public Store(){
 
@@ -44,5 +49,13 @@ public class Store {
 
     public void setSeller(User seller){
         this.seller = seller;
+    }
+
+    public StoreStatus getStatus(){
+        return status;
+    }
+
+    public void setStatus(StoreStatus status){
+        this.status = status;
     }
 }
