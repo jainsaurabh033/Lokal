@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleinvalidJson(
+    public ResponseEntity<ErrorResponse> handleInvalidJson(
             HttpMessageNotReadableException exception,
             HttpServletRequest request
     ){
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleexpectedException(Exception exception, HttpServletRequest request){
+    public ResponseEntity<ErrorResponse> handleExpectedException(Exception exception, HttpServletRequest request){
         logger.error("Unexpected error while processing request: {}",
                 request.getRequestURI(),
                 exception
